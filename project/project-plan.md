@@ -10,15 +10,15 @@ The analysis will help identify if there is any relationship between the presenc
 
 ## Datasources
 
-Datasource1: Berlin-Brandenburg Infrastructure ATM
-Metadata URL: https://mobilithek.info/offers/573328201445421056
-Data URL: https://cloud4.aero/v1/files/mclick_dnotam.zip
+Datasource1: Berlin-Brandenburg Infrastructure ATM <br />
+Metadata URL: https://mobilithek.info/offers/573328201445421056 <br />
+Data URL: https://cloud4.aero/v1/files/mclick_dnotam.zip <br />
 Data Type: xlsx
 The dataset contains information about the location of ATMs in Berlin. This dataset will be used to geocode the ATM locations and join it with the Berlin Crimes dataset.
 
-Datasource2: Crimes in Berlin
-Metadata URL: https://www.kaggle.com/datasets/danilzyryanov/crime-in-berlin-2012-2019/download?datasetVersionNumber=4
-Data URL: https://www.kaggle.com/datasets/danilzyryanov/crime-in-berlin-2012-2019?select=Berlin_crimes.csv
+Datasource2: Crimes in Berlin <br />
+Metadata URL: https://www.kaggle.com/datasets/danilzyryanov/crime-in-berlin-2012-2019/download?datasetVersionNumber=4 <br />
+Data URL: https://www.kaggle.com/datasets/danilzyryanov/crime-in-berlin-2012-2019?select=Berlin_crimes.csv <br />
 Data Type: xlsx
 The dataset contains information about the crimes committed in Berlin from 2012 to 2019. This dataset will be used to explore the correlation between the crimes and ATM locations in Berlin.
 
