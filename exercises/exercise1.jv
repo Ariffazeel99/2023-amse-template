@@ -4,9 +4,9 @@ pipeline airportpipeline{
     block AirportDataExt oftype HttpExtractor{	
         	url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv";
     }
-	
+	// Transformation Blocks
     block AirportTextfileinterpreter oftype TextFileInterpreter{ }
-
+    // delimiter: ";" as data separation was based on it
     block AirportCsvinterpreter oftype CSVInterpreter{ delimiter: ";"; }
 
     block AirportTableinterpreter oftype TableInterpreter{
@@ -29,12 +29,12 @@ pipeline airportpipeline{
 		];
     }
 
-
+    // Loader Block
     block DatabaseLoader oftype SQLiteLoader {
 		table: "airports";
 		file: "./airports.sqlite";
 	}
-
+    // <-- Pipeline flow -->
     AirportDataExt
     ->AirportTextfileinterpreter
     ->AirportCsvinterpreter
