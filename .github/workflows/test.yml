@@ -8,9 +8,6 @@ on:
   push:
     branches:
       - '**'
-  pull_request:
-    branches:
-      - '**'
       # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -22,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.9", "3.10" ]
+        python-version: [ "3.11" ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -40,8 +37,6 @@ jobs:
             python3 -m pip install --upgrade pip
             python3 -m pip install pylint
             python3 -m pip install pytest
-            # The requirements file is mandatory to be present the parent repository
-            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       # Runs a single command using the runners shell
       - name: Run a Unit Test modules
         run: |
