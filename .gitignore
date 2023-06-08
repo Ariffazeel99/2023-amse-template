@@ -16,4 +16,4 @@ ipython_config.py
 .dmypy.json
 dmypy.json
 
-.pyc
+*.pyc
