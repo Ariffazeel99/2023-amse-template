@@ -18,4 +18,4 @@ jobs:
           node-version: 17
 
       - name: Run tests
-        run: ./test.sh  # Replace with the correct path to your test.sh script
+        run: ./project/test.sh 
