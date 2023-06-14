@@ -4,4 +4,5 @@ python ./data/pipeline.py
 
 # testing the working of pipeline
 echo "Test if pipeline works correctly"
-pytest ./data/Unittest.py
+python test_pipeline.py
+#pytest ./data/test_pipeline.py
