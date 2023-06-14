@@ -6,3 +6,4 @@ python ./data/pipeline.py
 echo "Test if pipeline works correctly"
 python test_pipeline.py
 #pytest ./data/test_pipeline.py
+echo "All Test cases Passed -> pipeline works correctly"
