@@ -1,0 +1,76 @@
+// using my same structure from exercise1.jv
+pipeline carpipeline{
+
+    // Extractor Block
+    block CarDataExt oftype HttpExtractor{	
+        	url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46251-0021_00.csv";
+    }
+	// Transformation Blocks
+	// Step 1 encoding U and a
+    block CarTextfileinterpreter oftype TextFileInterpreter{ encoding: "ASCII"; }
+    // Step 2.1
+    block carLineSelection oftype TextRangeSelector {
+        lineFrom: 7; // ignore first 6 lines
+        lineTo: 483; // and last 4 lines -> metadata
+    }
+
+    // delimiter: ";" as data separation was based on it
+    block CarCsvinterpreter oftype CSVInterpreter{ delimiter: ";"; }
+
+    // Step 2.2
+    block CarColumnsDeletion oftype ColumnDeleter{
+        delete: [column D, column E, column F, column Q, column H, column I,
+        column J, column K, column L, column N, column O, column P, column Q,
+        column R, column S, column T, column U, column V, column X, column Y,
+        column Z, column AA, column AB, column AC, column AD, column AE,
+        column AF, column AH, column AI, column AJ, column AK, column AL,
+        column AM, column AN, column AO, column AP, column AR, column AS,
+        column AT, column AU, column AV, column AW, column AX, column AY,
+        column AZ, column BB, column BC, column BD, column BE, column BF,
+        column BQ, column BH, column BI, column BJ, column BL, column BM,
+        column BM, column BQ, column BR, column BS, column BT, column BV,
+        column BW, column BX, column BY, column BZ, column CA, column CB, column CC, column CD, column CE];
+    }
+
+
+    //Step 3.1 making primitive datatype for CIN and all + intergers
+    valuetype CIN oftype text {constraints: [Mustbe5Characters];}
+    constraint Mustbe5Characters oftype LengthConstraint { minLength: 5; maxLength: 5;}
+    valuetype PositiveIntegersegers oftype integer { constraints: [Numbersgreaterthen0];}
+    constraint Numbersgreaterthen0 oftype RangeConstraint {lowerBound: 1;lowerBoundInclusive: true;}
+
+    //Step 3.2 drop all invalid rows
+
+
+    //Step 2.2 keep mention columns with rename names Column A: Column B: CINColumn C: name Column M: petrol Column W: diesel Column AG: gas Column AQ: electro Column BA: hybrid Column BK: plugInHybrid Column BU: others
+    //step 4 use SQLite types for all columns
+    block CarTableinterpreter oftype TableInterpreter{
+        header: false;
+        columns: [
+        "date" oftype text,
+        "CIN" oftype CIN,
+        "name" oftype text,
+        "petrol" oftype PositiveIntegers,
+        "diesel" oftype PositiveIntegers,
+        "gas" oftype PositiveIntegers,
+        "electro" oftype PositiveIntegers,
+        "hybrid" oftype PositiveIntegers,
+        "plugInHybrid" oftype PositiveIntegers,
+        "others" oftype PositiveIntegers];
+    }
+
+    // Loader Block
+    block DatabaseLoader oftype SQLiteLoader {
+		table: "cars";
+		file: "./cars.sqlite";
+	}
+    // <-- Pipeline flow -->
+    CarDataExt
+    ->CarTextfileinterpreter
+    ->carLineSelection
+    ->CarCsvinterpreter
+    ->CarColumnsDeletion
+    ->CarTableinterpreter
+    ->DatabaseLoader;
+
+}
