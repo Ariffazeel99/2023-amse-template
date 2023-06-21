@@ -36,7 +36,7 @@ pipeline carpipeline{
     //Step 3.1 making primitive datatype for CIN and all + intergers
     valuetype CIN oftype text {constraints: [Mustbe5Characters];}
     constraint Mustbe5Characters oftype LengthConstraint { minLength: 5; maxLength: 5;}
-    valuetype PositiveIntegersegers oftype integer { constraints: [Numbersgreaterthen0];}
+    valuetype PositiveIntegers oftype integer { constraints: [Numbersgreaterthen0];}
     constraint Numbersgreaterthen0 oftype RangeConstraint {lowerBound: 1;lowerBoundInclusive: true;}
 
     //Step 3.2 drop all invalid rows
