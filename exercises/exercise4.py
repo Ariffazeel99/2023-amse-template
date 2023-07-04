@@ -30,12 +30,50 @@ def data_transformation():
 # Step 4  data validation function
 def Data_Validations(df):
     # Validate Geraet column
-    df = df[df["Geraet"] > 0 &(df["Monat"] > 0)]
+    df = df[df["Geraet"] > 0]
+
+    df = df[df['Monat'].between(1, 12)]
+
+    # Validate Hersteller to be non-empty strings
+    df = df[df['Hersteller'].apply(lambda x: isinstance(x, str) and x.strip() != "")]
+
+    # Validate Model to be non-empty strings
+    df = df[df['Model'].apply(lambda x: isinstance(x, str) and x.strip() != "")]
+
+    # Validate Temperatur and Batterietemperatur to be numeric and non-null
+    df = df[df['Temperatur'].apply(lambda x: pd.to_numeric(x, errors='coerce') is not None)]
+    df = df[df['Batterietemperatur'].apply(lambda x: pd.to_numeric(x, errors='coerce') is not None)]
+
+    # Validate Geraet aktiv to be either "Ja" or "Nein"
+    df = df[df['Geraet aktiv'].isin(['Ja', 'Nein'])]
+
     return df
 # Step 5 function to write the data to the SQLite database
 def Load_data(df, db_path, table_name):
     conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    # Define the table name and schema
+    table_name = table_name
+    table_schema = [
+        ("Geraet", "BIGINT"),
+        ("Hersteller", "TEXT"),
+        ("Model", "TEXT"),
+        ("Monat", "TEXT"),
+        ("Temperatur", "FLOAT"),
+        ("Batterietemperatur", "FLOAT"),
+        ("Geraet_aktiv", "TEXT")
+    ]
+    # Create the table
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ("
+    for column, data_type in table_schema:
+        create_table_query += f"{column} {data_type}, "
+    create_table_query = create_table_query.rstrip(", ") + ")"
+
+    cursor.execute(create_table_query)
+
+    # Commit the changes and close the connection
     df.to_sql(table_name, conn, if_exists="replace", index=False)
+    conn.commit()
     conn.close()
 
 # Step 6 main function
