@@ -45,7 +45,7 @@ pipeline transportpipeline{
 		file: "./gtfs.sqlite";
 	}
     // <-- Pipeline flow -->
-    transportDataExt
+    GTFS_Extractor
     ->GTFS_Extractor
     ->GTFS_ZipInterpreter
     ->GTFS_FilePicker
