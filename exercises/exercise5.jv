@@ -1,0 +1,56 @@
+// using my same structure from exercise1.jv
+pipeline transportpipeline{
+
+    // ----------------Extractor Block-------------------------
+    block GTFS_Extractor oftype HttpExtractor{
+        url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip";
+    }
+    block GTFS_ZipInterpreter oftype ArchiveInterpreter{
+        archiveType: "zip";
+    }
+    // Pick out only stops (from stops.txt)
+    block GTFS_FilePicker oftype FilePicker {
+        path: "/stops.txt";
+    }
+
+	// ----------------Transformation Blocks---------------------
+    block transportTextfileinterpreter oftype TextFileInterpreter{  }
+
+    block transportCsvinterpreter oftype CSVInterpreter{
+        enclosing: '"';
+		enclosingEscape: '"';
+	}
+
+
+    //making primitive datatype for
+    valuetype Coordinates  oftype text {constraints: [btw_n90to90constraint];}
+    constraint btw_n90to90constraint oftype LengthConstraint { lowerBound: -90; lowerBoundInclusive: true; upperBound: 90;upperBoundInclusive: true; }
+    valuetype Zones oftype integer { constraints: [only2001zone];}
+    constraint only2001zone oftype RangeConstraint {lowerBound: 2001;lowerBoundInclusive: true; upperBound: 2001;}
+
+    //use  types for all columns
+    block transportTableinterpreter oftype TableInterpreter{
+        header: false;
+        columns:[
+			"stop_id" oftype integer,
+			"stop_name" oftype text,
+			"stop_lat" oftype Coordinates,
+			"stop_lon" oftype Coordinates,
+			"zone_id" oftype Zones];
+    }
+
+    // ---------------Loader Block---------------
+    block DatabaseLoader oftype SQLiteLoader {
+		table: "stops";
+		file: "./gtfs.sqlite";
+	}
+    // <-- Pipeline flow -->
+    transportDataExt
+    ->transportTextfileinterpreter
+    ->transportLineSelection
+    ->transportCsvinterpreter
+    ->transportColumnsDeletion
+    ->transportTableinterpreter
+    ->DatabaseLoader;
+
+}
