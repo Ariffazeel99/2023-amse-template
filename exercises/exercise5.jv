@@ -46,12 +46,14 @@ pipeline transportpipeline{
 	}
     // <-- Pipeline flow -->
     GTFS_Extractor
-    ->GTFS_Extractor
+    // ----------------Extractor Block-------------------------
     ->GTFS_ZipInterpreter
     ->GTFS_FilePicker
+    // ----------------Transformation Blocks---------------------
     ->transportTextfileinterpreter
     ->transportCsvinterpreter
     ->transportTableinterpreter
+    // ---------------Loader Block---------------
     ->DatabaseLoader;
 
 }
