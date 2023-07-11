@@ -23,7 +23,7 @@ pipeline transportpipeline{
 
 
     //making primitive datatype for
-    valuetype Coordinates  oftype text {constraints: [btw_n90to90constraint];}
+    valuetype Coordinates  oftype decimal {constraints: [btw_n90to90constraint];}
     constraint btw_n90to90constraint oftype RangeConstraint {
     lowerBound : -90;
     lowerBoundInclusive : true;
