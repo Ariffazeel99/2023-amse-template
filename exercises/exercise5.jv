@@ -26,12 +26,15 @@ pipeline transportpipeline{
     valuetype Coordinates  oftype decimal {constraints: [btw_n90to90constraint];}
     constraint btw_n90to90constraint oftype RangeConstraint {
     lowerBound : -90;
-    lowerBoundInclusive : true;
+    //lowerBoundInclusive : true;
     upperBound : 90;
-    upperBoundInclusive : true;
+    //upperBoundInclusive : true;
     }
     valuetype Zones oftype integer { constraints: [only2001zone];}
-    constraint only2001zone oftype RangeConstraint {lowerBound: 2001;lowerBoundInclusive: true; upperBound: 2001;}
+    constraint only2001zone oftype RangeConstraint {
+    lowerBound: 2001; //lowerBoundInclusive : true;
+    upperBound: 2001;
+    }
 
     //use  types for all columns
     block transportTableinterpreter oftype TableInterpreter{
