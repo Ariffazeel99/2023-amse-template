@@ -38,7 +38,7 @@ pipeline transportpipeline{
 
     //use  types for all columns
     block transportTableinterpreter oftype TableInterpreter{
-        header: false;
+        header: true;
         columns:[
 			"stop_id" oftype integer,
 			"stop_name" oftype text,
