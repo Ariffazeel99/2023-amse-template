@@ -46,10 +46,11 @@ pipeline transportpipeline{
 	}
     // <-- Pipeline flow -->
     transportDataExt
+    ->GTFS_Extractor
+    ->GTFS_ZipInterpreter
+    ->GTFS_FilePicker
     ->transportTextfileinterpreter
-    ->transportLineSelection
     ->transportCsvinterpreter
-    ->transportColumnsDeletion
     ->transportTableinterpreter
     ->DatabaseLoader;
 
