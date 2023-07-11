@@ -33,6 +33,6 @@ This dataset is scraped from AutoScout24, one of Europe's largest car markets, a
 2. Data Collection and Preprocessing : This involves downloading and preprocessing the datasets.
 3. Build data pipeline.
 4. Clean and explore data.
-5. Analyze dataset and identify correlations : Finding correlation between the crimes and ATM locations in Berlin. 
+5. Analyze dataset and identify correlations : Finding correlation. 
 6. Build data pipelines.
 7. Visualization: This involves creating visualizations to communicate the findings of the analysis.
